@@ -1,0 +1,115 @@
+# **Normalización del Proyecto de Biblioteca hasta la Tercera Forma Normal (3FN)**
+
+## **Proceso de Normalización**
+
+### 1FN
+
+**Condiciones:**
+- Todos los atributos deben ser atómicos (sin valores repetidos o conjuntos de valores).
+- Cada fila debe ser única y las columnas deben tener un dominio único.
+
+#### Tablas iniciales 1FN (Tomadas como ejemplo):**
+
+**Tabla `Usuarios`:**
+| id_usuario | nombre      | direccion         | telefono   | email           | fecha_registro | cuota_mensual |
+|------------|-------------|-------------------|------------|-----------------|----------------|---------------|
+| 1          | Ana Pérez   | Calle Falsa 123   | 123456789  | ana@email.com   | 2024-01-10     | 15.00         |
+
+**Tabla `Libros`:**
+| id_libro | titulo                  | autor                  | año_publicacion | isbn          | disponible |
+|----------|-------------------------|------------------------|-----------------|---------------|------------|
+| 1        | Cien Años de Soledad    | Gabriel García Márquez  | 1967            | 978-1234567890| TRUE       |
+
+**Tabla `Prestamos`:**
+| id_prestamo | id_usuario | id_libro | fecha_prestamo | fecha_devolucion |
+|-------------|------------|----------|----------------|------------------|
+| 1           | 1          | 1        | 2024-11-01     | 2024-11-10       |
+
+**Tabla `Pagos`:**
+| id_pago | id_usuario | fecha_pago | monto |
+|---------|------------|------------|-------|
+| 1       | 1          | 2024-11-01 | 15.00 |
+
+---
+
+### 2FN
+
+**Condiciones:**
+- Cumple con 1FN.
+- Todos los atributos no clave deben depender completamente de la clave primaria, no solo de parte de ella.
+
+#### Análisis:
+
+1. **Tabla `Usuarios`**:  
+   - Clave primaria: `id_usuario`.
+   - Todos los atributos (`nombre`, `direccion`, `telefono`, `email`, `fecha_registro`, `cuota_mensual`) dependen completamente de `id_usuario`.
+
+2. **Tabla `Libros`**:  
+   - Clave primaria: `id_libro`.
+   - Todos los atributos (`titulo`, `autor`, `año_publicacion`, `isbn`, `disponible`) dependen completamente de `id_libro`.
+
+3. **Tabla `Prestamos`**:  
+   - Clave primaria: `id_prestamo`.
+   - `id_usuario` y `id_libro` son claves externas, pero todos los demás atributos dependen de `id_prestamo`.
+
+4. **Tabla `Pagos`**:  
+   - Clave primaria: `id_pago`.
+   - Todos los atributos dependen completamente de `id_pago`.
+
+---
+
+### 3FN
+
+**Condiciones:**
+- Cumple con 2FN.
+- No debe haber dependencias transitivas (los atributos no clave dependen directamente de la clave primaria).
+
+#### Revisión de dependencias transitivas:
+
+1. **Tabla `Usuarios`**:  
+   No existen dependencias transitivas.  
+   - Clave primaria: `id_usuario`.
+
+2. **Tabla `Libros`**:  
+   No existen dependencias transitivas.  
+   - Clave primaria: `id_libro`.
+
+3. **Tabla `Prestamos`**:  
+   No existen dependencias transitivas.  
+   - Clave primaria: `id_prestamo`.
+
+4. **Tabla `Pagos`**:  
+   No existen dependencias transitivas.  
+   - Clave primaria: `id_pago`.
+
+---
+
+## 3FN
+
+### **Tablas y sus Claves Primarias**
+
+1. **Usuarios**  
+   - Clave primaria: `id_usuario`  
+   - Atributos: `id_usuario, nombre, direccion, telefono, email, fecha_registro, cuota_mensual`
+
+2. **Libros**  
+   - Clave primaria: `id_libro`  
+   - Atributos: `id_libro, titulo, autor, año_publicacion, isbn, disponible`
+
+3. **Prestamos**  
+   - Clave primaria: `id_prestamo`  
+   - Atributos: `id_prestamo, id_usuario (FK), id_libro (FK), fecha_prestamo, fecha_devolucion`
+
+4. **Pagos**  
+   - Clave primaria: `id_pago`  
+   - Atributos: `id_pago, id_usuario (FK), fecha_pago, monto`
+
+---
+
+### **Conclusión**
+
+El esquema propuesto cumple con las reglas de la **Tercera Forma Normal (3FN)** y es adecuado para un sistema de gestión de biblioteca.
+
+- **Eliminación de redundancia**.
+- **Integridad de datos**.
+- **Eficiencia en las consultas y mantenimiento**.
